@@ -4,7 +4,7 @@ const StyledContainer = styled.div`
   border: ${(props) => `1px solid black`};
   padding: 25px 12px 18px;
   background: ${(props) => `linear-gradient(
-    45deg, black, yellow
+    45deg, gray, gold
   )`};
 `
 const Title = styled.h2`
@@ -66,7 +66,7 @@ const StyledPhoto = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border: ${(props) => `1px solid gold`};
+  border: ${(props) => `1px solid green`};
 `
 
 const Card = ({
