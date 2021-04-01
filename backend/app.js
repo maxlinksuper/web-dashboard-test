@@ -2,6 +2,7 @@
 const express = require("express");
 const cron = require("node-cron");
 const fetch = require("node-fetch");
+const cors = require("cors");
 
 // File Modules
 const initDB = require("./initDatabase.js");
@@ -12,15 +13,14 @@ const PORT = process.env.PORT || 3001;
 
 const app = express();
 
-app.get("/hero", (req, res) => {
+app.use(cors());
+app.get("/hero/:tier", (req, res) => {
   var topHeroes = updateMeta.getHeroData();
-  // res.json({ message: "Meta from Hero data will be delivered from here!" });
-  res.json({ message: topHeroes[7] });
+  res.json(topHeroes[req.params.tier]);
 });
 
 app.get("/pros", (req, res) => {
   var topProHeroes = updateMeta.getProHeroData();
-  // res.json({ message: "Meta from Pro Player stats will be delivered from here!"});
   res.json({ message: topProHeroes })
 });
 

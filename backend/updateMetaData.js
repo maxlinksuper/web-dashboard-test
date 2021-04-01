@@ -65,13 +65,11 @@ function updateMetaProData() {
                     element.ban = element.ban/total[0].totalBan *100;
                     element.ban = parseFloat(element.ban.toFixed(2));
                 });
-                // console.log(typeof(herodata[0].pick), "Boom =" + herodata[0].pick);
                 herodata.sort(function(a,b) {
                     return (b.pick+b.win+b.ban) - (a.pick+a.win+a.ban); 
                 });
 
                 topproheroes = herodata.slice(0,9);
-                console.log(topproheroes);
                 resolve();
             }
         });
