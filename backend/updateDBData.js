@@ -10,8 +10,8 @@ async function getDotaData() {
 async function updateData() {
     let value = await getDotaData();
     conn.getConnection(function(err, mclient) {
+    console.log("Updating Data Phase - Connected to Database");
     value.forEach(element => {
-        console.log(element.id);
         // conn.getConnection(function(err, mclient) {
             if (err) throw err;
             if (!(element.pro_pick)) {
@@ -26,7 +26,14 @@ async function updateData() {
                 element.pro_ban = 0;
             }
 
-            var sqlCommand2 = `
+            var iText1, iText2;
+            for (let i = 1; i <= 8; i++) {
+                iText1 = "" + i + "_win";
+                iText2 = "" + i + "_pick"
+                element[iText1] = (element[iText1]/element[iText2] * 100).toFixed(2);
+            } 
+
+            var sqlCommand = `
             INSERT INTO heroes
             (id, name, attrb, image)
             VALUES
@@ -61,24 +68,25 @@ async function updateData() {
             winrate8 = VALUES(winrate8);
 
             INSERT INTO proherostats
-            (id, pick, winrate, ban)
+            (id, pick, win, ban)
             VALUES
             (`+ element.id + `, `+ element.pro_pick + `, `+ element.pro_win + `, `+ element.pro_ban + `)
             ON DUPLICATE KEY UPDATE
             id = VALUES(id),
             pick = VALUES(pick),
-            winrate = VALUES(winrate),
+            win = VALUES(win),
             ban = VALUES(ban);
             `    
             ;
             
-            console.log("Updating Data Phase - Connected to database");
-            console.log("Inserting Hero " + element.localized_name + " with ID " + element.id + " to database");
-            mclient.query(sqlCommand2, function (err, result) {
+            // console.log("Inserting Hero " + element.localized_name + " with ID " + element.id + " to database");
+            mclient.query(sqlCommand, function (err, result) {
                 if (err) throw err;
-                console.log("Hero Data Inserted");
+                
             });
-        }); 
+        });
+        console.log("Updating Data Phase - Hero Data Inserted"); 
+        mclient.release();
     });   
 }
 

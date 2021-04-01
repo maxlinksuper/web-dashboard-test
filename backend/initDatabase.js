@@ -12,28 +12,28 @@ CREATE TABLE IF NOT EXISTS heroes (
 CREATE TABLE IF NOT EXISTS herostats (
     id varchar(3) PRIMARY KEY,
     pick1 mediumint NOT NULL,
-    winrate1 mediumint NOT NULL,
+    winrate1 decimal(4,2) NOT NULL,
     pick2 mediumint NOT NULL,
-    winrate2 mediumint NOT NULL,
+    winrate2 decimal(4,2) NOT NULL,
     pick3 mediumint NOT NULL,
-    winrate3 mediumint NOT NULL,
+    winrate3 decimal(4,2) NOT NULL,
     pick4 mediumint NOT NULL,
-    winrate4 mediumint NOT NULL,
+    winrate4 decimal(4,2) NOT NULL,
     pick5 mediumint NOT NULL,
-    winrate5 mediumint NOT NULL,
+    winrate5 decimal(4,2) NOT NULL,
     pick6 mediumint NOT NULL,
-    winrate6 mediumint NOT NULL,
+    winrate6 decimal(4,2) NOT NULL,
     pick7 mediumint NOT NULL,
-    winrate7 mediumint NOT NULL,
+    winrate7 decimal(4,2) NOT NULL,
     pick8 mediumint NOT NULL,
-    winrate8 mediumint NOT NULL,
+    winrate8 decimal(4,2) NOT NULL,
     FOREIGN KEY (id) REFERENCES heroes(id)
 );
 
 CREATE TABLE IF NOT EXISTS proherostats (
     id varchar(3) PRIMARY KEY,
     pick mediumint NOT NULL,
-    winrate mediumint NOT NULL,
+    win mediumint NOT NULL,
     ban mediumint NOT NULL,
     FOREIGN KEY (id) REFERENCES heroes(id)
 );
@@ -49,6 +49,7 @@ conn.getConnection(function(err, mclient) {
     if (err) throw err;
     console.log("Database Initiation Phase - Connected to database");
     mclient.query(sqlCommand, async function (err, result) {
+        mclient.release();
         if (err) {
             throw err;
         } else {
